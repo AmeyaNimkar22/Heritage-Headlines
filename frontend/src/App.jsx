@@ -1,6 +1,8 @@
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import NewsFeed from "./components/NewsFeed";
+import RegionsMap from "./components/RegionsMap";
+
 
 export default function App() {
   return (
@@ -8,6 +10,7 @@ export default function App() {
       <Header />
       <Hero />
       <NewsFeed />
+      <RegionsMap />
     </div>
   );
 }
