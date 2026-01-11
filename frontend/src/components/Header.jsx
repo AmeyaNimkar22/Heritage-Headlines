@@ -30,7 +30,7 @@ export default function Header() {
           <a href="#news" className="hover:text-gray-900 transition">
             News
           </a>
-          <a href="#regions" className="hover:text-gray-900 transition">
+          <a href="/regions" className="hover:text-gray-900 transition">
             Regions
           </a>
           <a href="#about" className="hover:text-gray-900 transition">
@@ -56,9 +56,9 @@ export default function Header() {
           <a href="#news" className="block">
             News
           </a>
-          <a href="#regions" className="block">
-            Regions
-          </a>
+          <a href="/regions" className="hover:text-gray-900 transition">
+  Regions
+</a>
           <a href="#about" className="block">
             About
           </a>

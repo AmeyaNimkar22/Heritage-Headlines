@@ -1,20 +1,34 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import NewsFeed from "./components/NewsFeed";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Footer from "./components/Footer";
+import Regions from "./pages/Regions";
 
-function App() {
+function Home() {
   return (
     <>
-      <Header/>
       <Hero />
       <ErrorBoundary>
         <NewsFeed />
       </ErrorBoundary>
-      <Footer/>
     </>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Router>
+      <Header />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/regions" element={<Regions />} />
+      </Routes>
+
+      <Footer />
+    </Router>
+  );
+}
