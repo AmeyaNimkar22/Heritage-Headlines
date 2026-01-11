@@ -8,27 +8,27 @@ export default function NewsFeed() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const res = await axios.get("https://newsapi.org/v2/everything", {
-          params: {
-            q: "heritage preservation OR cultural heritage OR monument restoration",
-            language: "en",
-            sortBy: "publishedAt",
-            apiKey: import.meta.env.VITE_NEWS_API_KEY,
-          },
-        });
-
-        setArticles(res.data.articles);
-      } catch (err) {
-        console.error("Failed to fetch heritage news", err);
-      } finally {
-        setLoading(false);
+  const fetchNews = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/news");
+      if (Array.isArray(res.data)) {
+        setArticles(res.data);
+      } else {
+        console.warn("Backend returned unexpected data:", res.data);
+        setArticles([]);
       }
-    };
+    } catch (err) {
+      console.error("Failed to fetch heritage news", err);
+      setArticles([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchNews();
-  }, []);
+  fetchNews();
+}, []);
+
+       
 
   
 

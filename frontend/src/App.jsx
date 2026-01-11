@@ -1,16 +1,20 @@
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import NewsFeed from "./components/NewsFeed";
+import ErrorBoundary from "./components/ErrorBoundary";
+import Footer from "./components/Footer";
 
-export default function App() {
+function App() {
   return (
     <>
-      <Header />
+      <Header/>
       <Hero />
-      <main className="bg-white">
+      <ErrorBoundary>
         <NewsFeed />
-      </main>
+      </ErrorBoundary>
+      <Footer/>
     </>
   );
 }
 
+export default App;
