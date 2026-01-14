@@ -1,38 +1,44 @@
-import { useNavigate } from "react-router-dom";
-
-const regions = [
-  { name: "Asia", query: "Asian heritage sites" },
-  { name: "Europe", query: "European heritage monuments" },
-  { name: "Africa", query: "African cultural heritage" },
-  { name: "Americas", query: "American heritage preservation" },
-  { name: "Middle East", query: "Middle Eastern heritage sites" },
-];
+import { useEffect, useState } from "react";
+import axios from "axios";
+import HeritageMap from "../components/HeritageMap";
+import ContinentDashboard from "../components/ContinentDashboard";
 
 export default function Regions() {
-  const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/news");
+
+        const safeData = res.data.map((item) => ({
+          ...item,
+          continent: item.continent || "Other",
+        }));
+
+        setData(safeData);
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setError("Failed to load heritage data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
+
+  if (loading) return <div className="text-center mt-20">Loading map…</div>;
+  if (error) return <div className="text-center mt-20 text-red-500">{error}</div>;
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20">
-      <h2 className="text-4xl font-bold text-center mb-12">
-        Explore Heritage by Region
-      </h2>
-
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {regions.map((r) => (
-          <button
-            key={r.name}
-            onClick={() => navigate(`/?region=${r.query}`)}
-            className="group rounded-2xl p-8 border bg-white hover:shadow-xl transition text-left"
-          >
-            <h3 className="text-2xl font-semibold mb-2 group-hover:text-blue-600">
-              {r.name}
-            </h3>
-            <p className="text-gray-600 text-sm">
-              Discover preservation stories from {r.name}
-            </p>
-          </button>
-        ))}
-      </div>
-    </section>
+    <div className="max-w-7xl mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-6">Global Heritage Story Map</h1>
+      <HeritageMap data={data} />
+      <ContinentDashboard data={data} />
+      
+    </div>
   );
 }

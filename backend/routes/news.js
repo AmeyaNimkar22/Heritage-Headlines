@@ -1,32 +1,44 @@
 import express from "express";
 import axios from "axios";
+import inferContinent from "../utils/inferContinent.js";
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const response = await axios.get(
-      "https://newsapi.org/v2/everything",
-      {
-        params: {
-          q: "heritage preservation OR cultural heritage OR monument restoration",
-          language: "en",
-          sortBy: "publishedAt",
-          apiKey: process.env.NEWS_API_KEY,
-        },
-      }
-    );
+    const response = await axios.get("https://newsapi.org/v2/everything", {
+      params: {
+        q: "heritage OR monument OR cultural heritage OR archaeology",
+        language: "en",
+        sortBy: "publishedAt",
+        pageSize: 100,
+        apiKey: process.env.NEWS_API_KEY,
+      },
+    });
 
-    res.json(response.data.articles);
-  } catch (error) {
-  console.error("News API error:", error.response?.data || error.message);
+    const articles = response.data.articles
+      .map((article) => {
+        const text = `${article.title || ""} ${article.description || ""}`;
+        const continent = inferContinent(text, article.url);
 
-  res.status(500).json({
-    error: "Failed to fetch heritage news",
-    details: error.response?.data || error.message,
-  });
-}
+        if (continent === "Other") return null;
 
+        return {
+          title: article.title,
+          description: article.description,
+          url: article.url,
+          image: article.urlToImage,
+          publishedAt: article.publishedAt,
+          continent,
+        };
+      })
+      .filter(Boolean);
+
+    res.json(articles);
+  } catch (err) {
+    console.error("News fetch error:", err.message);
+    res.status(500).json({ error: "Failed to fetch news" });
+  }
 });
 
 export default router;
