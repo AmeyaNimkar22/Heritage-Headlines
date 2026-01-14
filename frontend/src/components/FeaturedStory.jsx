@@ -6,9 +6,9 @@ export default function FeaturedStory({ article }) {
       <div className="grid md:grid-cols-2 gap-10 items-center bg-gray-50 rounded-2xl overflow-hidden shadow-sm">
 
         {/* Image */}
-        {article.urlToImage && (
+        {article.image && (
           <img
-            src={article.urlToImage}
+            src={article.image}
             alt={article.title}
             className="w-full h-full object-cover max-h-105"
           />

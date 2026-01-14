@@ -28,6 +28,7 @@ router.get("/", async (req, res) => {
           description: article.description,
           url: article.url,
           image: article.urlToImage,
+          source: article.source,
           publishedAt: article.publishedAt,
           continent,
         };

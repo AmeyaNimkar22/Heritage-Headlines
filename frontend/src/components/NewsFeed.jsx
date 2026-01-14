@@ -28,6 +28,8 @@ export default function NewsFeed() {
   fetchNews();
 }, []);
 
+
+
        
 
   
@@ -57,12 +59,14 @@ if (loading) {
               key={i}
               className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
             >
-              {a.urlToImage && (
+              {a.image && (
                 <img
-                  src={a.urlToImage}
-                  alt={a.title}
-                  className="h-48 w-full object-cover"
-                />
+  src={a.image || "assets/fallback.jpg"}
+  alt={a.title}
+  className="h-48 w-full object-cover"
+  onError={(e) => (e.currentTarget.src = "/assets/fallback.jpg")}
+/>
+
               )}
 
               <div className="p-5">
