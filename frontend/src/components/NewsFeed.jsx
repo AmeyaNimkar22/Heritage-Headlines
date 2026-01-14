@@ -56,43 +56,42 @@ if (loading) {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {rest.map((a, i) => (
             <article
-              key={i}
-              className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
-            >
-              {a.image && (
-                <img
-  src={a.image || "assets/fallback.jpg"}
-  alt={a.title}
-  className="h-48 w-full object-cover"
-  onError={(e) => (e.currentTarget.src = "/assets/fallback.jpg")}
-/>
+  key={i}
+  className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
+>
+  <img
+    src={a.image || "/assets/fallback.jpg"}
+    alt={a.title}
+    className="h-48 w-full object-cover"
+    onError={(e) => {
+      e.currentTarget.onerror = null;
+      e.currentTarget.src = "/assets/fallback.jpg";
+    }}
+  />
 
-              )}
+  <div className="p-5">
+    <h4 className="font-semibold text-lg mb-2 line-clamp-2">
+      {a.title}
+    </h4>
 
-              <div className="p-5">
-                <h4 className="font-semibold text-lg mb-2 line-clamp-2">
-                  {a.title}
-                </h4>
+    <p className="text-sm text-gray-600 line-clamp-3 mb-4">
+      {a.description}
+    </p>
 
-                <p className="text-sm text-gray-600 line-clamp-3 mb-4">
-                  {a.description}
-                </p>
+    <div className="flex justify-between items-center text-sm">
+      <span className="opacity-70">{a.source?.name}</span>
+      <a
+        href={a.url}
+        target="_blank"
+        rel="noreferrer"
+        className="text-blue-600 font-medium hover:underline"
+      >
+        Read →
+      </a>
+    </div>
+  </div>
+</article>
 
-                <div className="flex justify-between items-center text-sm">
-                  <span className="opacity-70">
-                    {a.source?.name}
-                  </span>
-                  <a
-                    href={a.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-blue-600 font-medium hover:underline"
-                  >
-                    Read →
-                  </a>
-                </div>
-              </div>
-            </article>
           ))}
         </div>
       </section>
