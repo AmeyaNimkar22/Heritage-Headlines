@@ -35,7 +35,7 @@ export default function Regions() {
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Global Heritage Story Map</h1>
+      <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: "Elsie, serif" }}>Global Heritage Story Map</h1>
       <HeritageMap data={data} />
       <ContinentDashboard data={data} />
       
