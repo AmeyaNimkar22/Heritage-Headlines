@@ -4,11 +4,95 @@ import inferContinent from "../utils/inferContinent.js";
 
 const router = express.Router();
 
+/* =======================
+   KEYWORD DEFINITIONS
+   ======================= */
+
+// Must mention heritage / monument / site
+const HERITAGE_KEYWORDS = [
+  "heritage",
+  "cultural heritage",
+  "heritage site",
+  "historic site",
+  "historic monument",
+  "monument",
+  "archaeological site",
+  "ancient temple",
+  "ancient church",
+  "fort",
+  "palace",
+  "unesco",
+  "world heritage",
+];
+
+// Must mention preservation OR threat
+const PRESERVATION_KEYWORDS = [
+  "preservation",
+  "restore",
+  "restoration",
+  "conservation",
+  "protect",
+  "protection",
+  "rehabilitation",
+  "rebuild",
+];
+
+const THREAT_KEYWORDS = [
+  "damaged",
+  "threatened",
+  "endangered",
+  "destroyed",
+  "encroachment",
+  "vandalism",
+  "climate change",
+  "flood",
+  "earthquake",
+  "fire",
+  "erosion",
+  "war",
+  "conflict",
+];
+
+// Hard exclusions (UPSC / politics / courts / policy noise)
+const EXCLUDE_KEYWORDS = [
+  "upsc",
+  "exam",
+  "civil services",
+  "politics",
+  "election",
+  "court",
+  "judiciary",
+  "supreme court",
+  "law",
+  "policy",
+  "government scheme",
+  "trump",
+  "biden",
+  "strike",
+  "workers",
+  "economy",
+  "ai regulation",
+  "gig workers",
+];
+const scoreText = (text, keywords, weight = 1) =>
+  keywords.reduce(
+    (score, k) => (text.includes(k) ? score + weight : score),
+    0
+  );
+
+/* =======================
+   ROUTE
+   ======================= */
+
 router.get("/", async (req, res) => {
   try {
     const response = await axios.get("https://newsapi.org/v2/everything", {
       params: {
-        q: "heritage OR monument OR cultural heritage OR archaeology",
+        q: `
+          ("heritage site" OR "historic monument" OR "world heritage site" OR UNESCO)
+          AND
+          (preservation OR restoration OR conservation OR damaged OR threatened)
+        `,
         language: "en",
         sortBy: "publishedAt",
         pageSize: 100,
@@ -16,29 +100,55 @@ router.get("/", async (req, res) => {
       },
     });
 
-    const articles = response.data.articles
-      .map((article) => {
-        const text = `${article.title || ""} ${article.description || ""}`;
-        const continent = inferContinent(text, article.url);
+   const articles = response.data.articles
+  .map((article) => {
+    const text = `${article.title || ""} ${article.description || ""}`.toLowerCase();
 
-        if (continent === "Other") return null;
+    const heritageScore = scoreText(text, HERITAGE_KEYWORDS, 3);
+    const preservationScore = scoreText(text, PRESERVATION_KEYWORDS, 2);
+    const threatScore = scoreText(text, THREAT_KEYWORDS, 2);
+    const exclusionScore = scoreText(text, EXCLUDE_KEYWORDS, -5);
 
-        return {
-          title: article.title,
-          description: article.description,
-          url: article.url,
-          image: article.urlToImage,
-          source: article.source,
-          publishedAt: article.publishedAt,
-          continent,
-        };
-      })
-      .filter(Boolean);
+    const looksLikePlaceBased =
+      /site|temple|church|fort|palace|monument|city|region|island/i.test(text)
+        ? 2
+        : 0;
+
+    const totalScore =
+      heritageScore +
+      preservationScore +
+      threatScore +
+      looksLikePlaceBased +
+      exclusionScore;
+
+    // 🚫 discard only very weak articles
+    if (totalScore < 4) return null;
+
+    const continent = inferContinent(text, article.url);
+    if (continent === "Other") return null;
+
+    return {
+      title: article.title,
+      description: article.description,
+      url: article.url,
+      image: article.urlToImage,
+      source: article.source?.name,
+      publishedAt: article.publishedAt,
+      continent,
+      relevanceScore: totalScore,
+    };
+  })
+  .filter(Boolean)
+  .sort((a, b) => b.relevanceScore - a.relevanceScore)
+  .slice(0, 15); // 👈 Daily digest size
+
 
     res.json(articles);
   } catch (err) {
     console.error("News fetch error:", err.message);
-    res.status(500).json({ error: "Failed to fetch news" });
+    res.status(500).json({
+      error: "Failed to fetch heritage preservation news",
+    });
   }
 });
 
