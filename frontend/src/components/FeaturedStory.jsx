@@ -1,18 +1,22 @@
+import fallbackImage from "../assets/fallback.jpg";
+
 export default function FeaturedStory({ article }) {
+  console.log(article);
   if (!article) return null;
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-12">
       <div className="grid md:grid-cols-2 gap-10 items-center bg-gray-50 rounded-2xl overflow-hidden shadow-sm">
-
         {/* Image */}
-        {article.image && (
-          <img
-            src={article.image}
-            alt={article.title}
-            className="w-full h-full object-cover max-h-105"
-          />
-        )}
+        <img
+          src={article.image}
+          alt={article.title}
+          referrerPolicy="no-referrer"
+          className="w-full h-[400px] object-cover"
+          onError={(e) => {
+            e.target.src = fallbackImage;
+          }}
+        />
 
         {/* Content */}
         <div className="p-8">
@@ -25,7 +29,7 @@ export default function FeaturedStory({ article }) {
           </h2>
 
           <p className="text-gray-600 text-lg mb-6 line-clamp-4">
-            {article.description}
+            {article.description || "No description available."}
           </p>
 
           <div className="flex items-center justify-between text-sm text-gray-500">

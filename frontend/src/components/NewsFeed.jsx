@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import FeaturedStory from "./FeaturedStory";
 import NewsSkeleton from "./NewsSkeleton";
+import fallbackImage from "../assets/fallback.jpg";
+
 
 export default function NewsFeed() {
   const [articles, setArticles] = useState([]);
@@ -60,12 +62,12 @@ if (loading) {
   className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
 >
   <img
-    src={a.image || "/assets/fallback.jpg"}
+    src={a.image || fallbackImage}
     alt={a.title}
     className="h-48 w-full object-cover"
     onError={(e) => {
       e.currentTarget.onerror = null;
-      e.currentTarget.src = "/assets/fallback.jpg";
+      e.currentTarget.src = fallbackImage;
     }}
   />
 

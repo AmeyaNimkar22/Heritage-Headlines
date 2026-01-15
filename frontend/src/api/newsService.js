@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_KEY = "YOUR_NEWSAPI_KEY";
+const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
+
 
 export const fetchHeritageNews = async () => {
   const res = await axios.get(
