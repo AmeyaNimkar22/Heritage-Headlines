@@ -27,11 +27,11 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8 text-sm text-gray-600 ">
-          <a href="#news" className="hover:text-gray-900 transition">
-            News
+          <a href="/" className="hover:text-gray-900 transition">
+            Daily Digest
           </a>
           <a href="/regions" className="hover:text-gray-900 transition">
-            Regions
+            Map
           </a>
           <a href="#about" className="hover:text-gray-900 transition">
             About
@@ -53,11 +53,11 @@ export default function Header() {
       {/* Mobile Menu */}
       {open && (
         <div className="md:hidden bg-white border-t border-gray-200 px-6 py-4 space-y-4 text-gray-700">
-          <a href="#news" className="block">
-            News
+          <a href="/" className="block">
+            Daily Digest
           </a>
           <a href="/regions" className="hover:text-gray-900 transition">
-  Regions
+  Map
 </a>
           <a href="#about" className="block">
             About
