@@ -1,32 +1,40 @@
 import mongoose from "mongoose";
 
-const HeritageSiteSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
-  country: { type: String, required: true },
+const heritageSiteSchema = new mongoose.Schema({
+  name: String,
+  description: String,
+  country: String,
+  city: String,
   continent: String,
 
+  imageUrl: String,
+
   yearInscribed: Number,
-  category: {
-    type: String,
-    enum: ["Cultural", "Natural", "Mixed"]
-  },
-
-  image: {
-    type: String,
-    default: "/assets/heritage-fallback.jpg"
-  },
-
-  threats: [String],
   restorationStatus: {
     type: String,
-    enum: ["Stable", "Endangered", "Under Restoration"],
+    enum: ["Stable", "Under Restoration", "Endangered"],
     default: "Stable"
   },
 
-  relatedStories: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Story"
-  }]
-}, { timestamps: true });
+  threatLevel: {
+    type: String,
+    enum: ["Low", "Moderate", "High"],
+    default: "Low"
+  },
 
-export default mongoose.model("HeritageSite", HeritageSiteSchema);
+  relatedStories: {
+    type: Array,
+    default: []
+  },
+
+  // 🔥 Spotlight fields
+  spotlight: {
+    type: Boolean,
+    default: false
+  },
+  spotlightScore: Number,
+  featuredReason: String,
+  lastUpdated: Date
+});
+
+export default mongoose.model("HeritageSite", heritageSiteSchema);
