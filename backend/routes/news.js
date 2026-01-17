@@ -152,4 +152,35 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+router.get("/heritage/:id", async (req, res) => {
+  try {
+    const site = await req.app.locals.db
+      .collection("heritage_sites")
+      .findOne({ _id: new ObjectId(req.params.id) });
+
+    if (!site) return res.json([]);
+
+    const query = site.name_en;
+
+    const response = await axios.get(
+      "https://newsapi.org/v2/everything",
+      {
+        params: {
+          q: query,
+          language: "en",
+          sortBy: "relevancy",
+          pageSize: 5,
+          apiKey: process.env.NEWS_API_KEY
+        }
+      }
+    );
+
+    res.json(response.data.articles || []);
+  } catch (err) {
+    console.error(err);
+    res.json([]);
+  }
+});
+
 export default router;

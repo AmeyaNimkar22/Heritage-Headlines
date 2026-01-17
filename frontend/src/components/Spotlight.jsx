@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Spotlight = () => {
+  const navigate = useNavigate(); // ✅ correct place
   const [monuments, setMonuments] = useState([]);
 
   useEffect(() => {
@@ -15,7 +17,7 @@ const Spotlight = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-10">
-      <h2 className="text-3xl font-bold text-center mb-10">
+      <h2 className="text-3xl font-bold text-center mb-10" style={{ fontFamily: "Elsie, serif" }} >
          Heritage Spotlight
       </h2>
 
@@ -34,12 +36,7 @@ const Spotlight = () => {
 
                 <div className="p-4">
                   <h3 className="text-lg font-semibold line-clamp-2">
-                    
-
-<h3 className="text-lg font-semibold line-clamp-2">
-  {cleanText(m.name_en)}
-</h3>
-
+                    {cleanText(m.name_en)}
                   </h3>
 
                   <p className="text-sm text-gray-600 mt-1">
@@ -56,40 +53,35 @@ const Spotlight = () => {
               <div className="absolute inset-0 backface-hidden rotate-y-180 bg-emerald-900 text-white rounded-xl shadow-lg p-5 flex flex-col justify-between">
                 <div>
                   <h3 className="text-lg font-semibold mb-2 line-clamp-2">
-                    {m.name_en}
+                    {cleanText(m.name_en)}
                   </h3>
 
-                  <p className="text-sm">
-   {m.region}
-</p>
+                  <p className="text-sm"> {m.region}</p>
+                  <p className="text-sm mt-2"> {m.category}</p>
+                  <p className="text-sm mt-2"> {m.date_inscribed}</p>
 
-<p className="text-sm mt-2">
- Category: {m.category}
-</p>
-
-<p className="text-sm mt-2">
-  Inscribed: {m.date_inscribed}
-</p>
-
-<p className="text-sm mt-2">
-   Status:{" "}
-  <span
-    className={
-      m.danger === "True"
-        ? "text-red-400 font-semibold"
-        : "text-emerald-300 font-semibold"
-    }
-  >
-    {m.danger === "True" ? "At Risk" : "Stable"}
-  </span>
-</p>
-
+                  <p className="text-sm mt-2">
+                     Status:{" "}
+                    <span
+                      className={
+                        m.danger === "True"
+                          ? "text-red-400 font-semibold"
+                          : "text-emerald-300 font-semibold"
+                      }
+                    >
+                      {m.danger === "True" ? "At Risk" : "Stable"}
+                    </span>
+                  </p>
                 </div>
 
-                <button className="mt-4 bg-white text-emerald-900 py-2 rounded-md font-medium hover:bg-gray-100 transition">
+                <button
+                  onClick={() => navigate(`/heritage/${m._id}`)}
+                  className="mt-4 bg-white text-emerald-900 py-2 rounded-md font-medium hover:bg-gray-100 transition"
+                >
                   Learn More
                 </button>
               </div>
+
             </div>
           </div>
         ))}
