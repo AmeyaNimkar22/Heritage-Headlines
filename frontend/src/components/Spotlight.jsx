@@ -11,10 +11,12 @@ const Spotlight = () => {
       .catch(console.error);
   }, []);
 
+  const cleanText = (text) => text?.replace(/<[^>]+>/g, "");
+
   return (
     <section className="max-w-7xl mx-auto px-6 py-10">
       <h2 className="text-3xl font-bold text-center mb-10">
-        🌍 Heritage Spotlight
+         Heritage Spotlight
       </h2>
 
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -32,7 +34,12 @@ const Spotlight = () => {
 
                 <div className="p-4">
                   <h3 className="text-lg font-semibold line-clamp-2">
-                    {m.name_en}
+                    
+
+<h3 className="text-lg font-semibold line-clamp-2">
+  {cleanText(m.name_en)}
+</h3>
+
                   </h3>
 
                   <p className="text-sm text-gray-600 mt-1">
@@ -52,17 +59,31 @@ const Spotlight = () => {
                     {m.name_en}
                   </h3>
 
-                  <p className="text-sm opacity-90">
-                    📍 {m.region}
-                  </p>
+                  <p className="text-sm">
+   {m.region}
+</p>
 
-                  <p className="text-sm mt-2">
-                    📅 Inscribed: {m.date_inscribed}
-                  </p>
+<p className="text-sm mt-2">
+ Category: {m.category}
+</p>
 
-                  <p className="text-sm mt-2">
-                    🧩 Components: {m.components_count}
-                  </p>
+<p className="text-sm mt-2">
+  Inscribed: {m.date_inscribed}
+</p>
+
+<p className="text-sm mt-2">
+   Status:{" "}
+  <span
+    className={
+      m.danger === "True"
+        ? "text-red-400 font-semibold"
+        : "text-emerald-300 font-semibold"
+    }
+  >
+    {m.danger === "True" ? "At Risk" : "Stable"}
+  </span>
+</p>
+
                 </div>
 
                 <button className="mt-4 bg-white text-emerald-900 py-2 rounded-md font-medium hover:bg-gray-100 transition">
