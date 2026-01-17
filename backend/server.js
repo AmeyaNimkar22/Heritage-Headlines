@@ -8,12 +8,15 @@ import connectDB from "./config/db.js";
 import heritageRoutes from "./routes/heritageRoutes.js";
 
 
+
+
 dotenv.config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
 
 // ⛓️ CONNECT TO MONGODB FIRST
 mongoose

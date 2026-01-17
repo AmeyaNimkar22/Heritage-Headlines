@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import Regions from "./pages/Regions";
 import Spotlight from "./components/Spotlight";
 import HeritageDetail from "./pages/HeritageDetail";
+import HeritageAnalysis from "./pages/HeritageAnalysis";
 
 function Home() {
   return (
@@ -30,7 +31,9 @@ export default function App() {
         <Route path="/news" element={<Home />} />
         <Route path="/regions" element={<Regions />} />
         <Route path="/spotlight" element={<Spotlight />} />
-         <Route path="/heritage/:id" element={<HeritageDetail />} />
+        <Route path="/heritage/:id" element={<HeritageDetail />} />
+        <Route path="/heritage/:id/analysis" element={<HeritageAnalysis />} />
+
 
       </Routes>
 

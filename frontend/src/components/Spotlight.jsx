@@ -13,6 +13,8 @@ const Spotlight = () => {
       .catch(console.error);
   }, []);
 
+  
+
   const cleanText = (text) => text?.replace(/<[^>]+>/g, "");
 
   return (
@@ -106,17 +108,24 @@ const Spotlight = () => {
                   </div>
 
                   <div className="relative z-10 space-y-3">
-                    {/* NEW AI ANALYSIS BUTTON */}
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/heritage/${m._id}/analysis`);
-                      }}
-                      className="group/ai w-full bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl text-sm font-bold border border-white/10 transition-all flex items-center justify-center gap-2"
-                    >
-                      <span className="text-emerald-400 group-hover/ai:animate-pulse"></span>
-                      AI Analysis
-                    </button>
+  onClick={(e) => {
+    e.stopPropagation();
+    navigate(
+      `/heritage/${m._id}/analysis`,
+      {
+        state: {
+          heritageName: m.name_en,
+          description: m.description_en || m.short_description_en
+        }
+      }
+    );
+  }}
+  className="group/ai w-full bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl text-sm font-bold border border-white/10 transition-all flex items-center justify-center gap-2"
+>
+  AI Analysis
+</button>
+
 
                     <button
                       onClick={(e) => {
