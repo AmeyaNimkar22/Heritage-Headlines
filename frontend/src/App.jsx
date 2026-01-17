@@ -6,7 +6,7 @@ import NewsFeed from "./components/NewsFeed";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Footer from "./components/Footer";
 import Regions from "./pages/Regions";
-import Spotlight from "./pages/Spotlight";
+import Spotlight from "./components/Spotlight";
 
 function Home() {
   return (
@@ -29,6 +29,7 @@ export default function App() {
         <Route path="/news" element={<Home />} />
         <Route path="/regions" element={<Regions />} />
         <Route path="/spotlight" element={<Spotlight />} />
+
       </Routes>
 
       <Footer />

@@ -4,7 +4,9 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 
 import newsRoutes from "./routes/news.js";
+import connectDB from "./config/db.js";
 import heritageRoutes from "./routes/heritageRoutes.js";
+
 
 dotenv.config();
 
@@ -21,7 +23,10 @@ mongoose
 
     // ✅ REGISTER ROUTES ONLY AFTER DB CONNECTS
     app.use("/api/news", newsRoutes);
-    app.use("/api/heritage", heritageRoutes);
+    connectDB(app);
+
+// Routes
+app.use("/api/heritage", heritageRoutes);
 
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () =>

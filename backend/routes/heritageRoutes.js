@@ -1,15 +1,20 @@
 import express from "express";
-import heritageSites from "../models/heritageSites.js";
-
 const router = express.Router();
 
 router.get("/spotlight", async (req, res) => {
-  const sites = await heritageSites.find({ spotlight: true }).limit(3);
+  try {
+    const monuments = await req.app.locals.db
+      .collection("heritage_sites") // ✅ EXACT MATCH
+      .aggregate([{ $sample: { size: 10 } }])
+      .toArray();
 
-  res.json({
-    success: true,
-    sites
-  });
+    console.log("Fetched monuments:", monuments.length);
+
+    res.json(monuments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch spotlight" });
+  }
 });
 
 export default router;
