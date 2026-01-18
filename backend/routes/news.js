@@ -10,6 +10,7 @@ const router = express.Router();
 
 // Must mention heritage / monument / site
 const HERITAGE_KEYWORDS = [
+  // Core Heritage & Landmarks
   "heritage",
   "cultural heritage",
   "heritage site",
@@ -17,12 +18,69 @@ const HERITAGE_KEYWORDS = [
   "historic monument",
   "monument",
   "archaeological site",
-  "ancient temple",
-  "ancient church",
-  "fort",
-  "palace",
   "unesco",
   "world heritage",
+  "world heritage site",
+  "historical landmark",
+  "cultural landmark",
+  "historical site",
+  "cultural site",
+  "historical monument",
+  "landmark",
+  "ruins",
+
+  // Discovery & Archaeology Specifics
+  "archaeology",
+  "funerary complex",
+  "excavation",
+  "burial ground",
+  "marching camps",
+  "ancient temple",
+  "submerged remains",
+  "republican tombs",
+  "bone stylus",
+  "hoard discovery",
+  "inscriptions",
+  "petroglyphs",
+
+  // Periods & Civilizations
+  "neolithic",
+  "bronze age",
+  "iron age",
+  "anglo-saxon",
+  "roman empire",
+  "tang dynasty",
+  "victorian",
+  "palaeoanthropology",
+  "neanderthal",
+  "pleistocene",
+
+  // Technology & Analysis
+  "lidar",
+  "3d interactive map",
+  "geoscience",
+  "palaeontology",
+  "geothermal resources",
+  "digital preservation",
+  "cultural conservation",
+  "historical preservation",
+
+  // Architecture & Structures
+  "fort",
+  "palace",
+  "ancient landscape",
+  "urban metropolis",
+  "limestone quarry",
+  "cave sanctuary",
+  "historical architecture",
+  "mosaic uncovered",
+
+  // Legacy & Preservation
+  "cultural legacy",
+  "historical legacy",
+  "cultural preservation",
+  "heritage conservation",
+  "digital reconstruction"
 ];
 
 // Must mention preservation OR threat
@@ -88,11 +146,7 @@ router.get("/", async (req, res) => {
   try {
     const response = await axios.get("https://newsapi.org/v2/everything", {
       params: {
-        q: `
-          ("heritage site" OR "historic monument" OR "world heritage site" OR UNESCO)
-          AND
-          (preservation OR restoration OR conservation OR damaged OR threatened)
-        `,
+        q:"heritage",
         language: "en",
         sortBy: "publishedAt",
         pageSize: 100,
