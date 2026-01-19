@@ -8,7 +8,6 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-
         {/* Brand */}
         <div className="flex items-center gap-3">
           <img
@@ -29,6 +28,10 @@ export default function Header() {
 
           <Link to="/regions" className="hover:text-gray-900 transition">
             Map
+          </Link>
+
+          <Link to="/spotlight" className="hover:text-gray-900 transition">
+            Spotlight
           </Link>
 
           <Link to="/ai-ranking" className="hover:text-gray-900 transition">
@@ -64,7 +67,19 @@ export default function Header() {
             Map
           </Link>
 
-          <Link to="/ai-ranking" className="block" onClick={() => setOpen(false)}>
+          <Link
+            to="/spotlight"
+            className="block"
+            onClick={() => setOpen(false)}
+          >
+            Spotlight
+          </Link>
+
+          <Link
+            to="/ai-ranking"
+            className="block"
+            onClick={() => setOpen(false)}
+          >
             AI Ranking
           </Link>
 
