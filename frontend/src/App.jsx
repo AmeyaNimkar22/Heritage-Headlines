@@ -10,6 +10,12 @@ import Spotlight from "./components/Spotlight";
 import HeritageDetail from "./pages/HeritageDetail";
 import HeritageAnalysis from "./pages/HeritageAnalysis";
 
+import AIStoryRanking from "./pages/AIStoryRanking";
+
+
+
+
+
 function Home() {
   return (
     <>
@@ -33,6 +39,8 @@ export default function App() {
         <Route path="/spotlight" element={<Spotlight />} />
         <Route path="/heritage/:id" element={<HeritageDetail />} />
         <Route path="/heritage/:id/analysis" element={<HeritageAnalysis />} />
+
+        <Route path="/ai-ranking" element={<AIStoryRanking />} />
 
 
       </Routes>

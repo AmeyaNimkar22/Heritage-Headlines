@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../assets/logo.jpeg";
 
 export default function Header() {
@@ -15,27 +16,29 @@ export default function Header() {
             alt="Heritage Headlines Logo"
             className="h-10 w-auto object-contain"
           />
-          <div>
-            <h2 className="text-lg md:text-xl font-semibold tracking-tight text-gray-900" style={{ fontFamily: "Elsie, serif" }}>
-              Heritage Headlines
-            </h2>
-            {/* <span className="hidden sm:block text-xs text-gray-500">
-              AI-curated global heritage news
-            </span> */}
-          </div>
+          <h2 className="text-lg md:text-xl font-semibold tracking-tight text-gray-900">
+            Heritage Headlines
+          </h2>
         </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8 text-sm text-gray-600 ">
-          <a href="/" className="hover:text-gray-900 transition">
+        <nav className="hidden md:flex items-center gap-8 text-sm text-gray-600">
+          <Link to="/" className="hover:text-gray-900 transition">
             Daily Digest
-          </a>
-          <a href="/regions" className="hover:text-gray-900 transition">
+          </Link>
+
+          <Link to="/regions" className="hover:text-gray-900 transition">
             Map
-          </a>
-          <a href="/spotlight" className="hover:text-gray-900 transition">
-            Heritage Sites
-          </a>
+          </Link>
+
+          <Link to="/ai-ranking" className="hover:text-gray-900 transition">
+            AI Ranking
+          </Link>
+
+          <Link to="#about" className="hover:text-gray-900 transition">
+            About
+          </Link>
+
           <button className="ml-4 px-4 py-2 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition">
             Subscribe
           </button>
@@ -44,7 +47,7 @@ export default function Header() {
         {/* Mobile Button */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden text-gray-700"
+          className="md:hidden text-gray-700 text-xl"
         >
           {open ? "✕" : "☰"}
         </button>
@@ -53,15 +56,22 @@ export default function Header() {
       {/* Mobile Menu */}
       {open && (
         <div className="md:hidden bg-white border-t border-gray-200 px-6 py-4 space-y-4 text-gray-700">
-          <a href="/" className="block">
+          <Link to="/" className="block" onClick={() => setOpen(false)}>
             Daily Digest
-          </a>
-          <a href="/regions" className="hover:text-gray-900 transition">
-  Map
-</a>
-          <a href="/spotlight" className="block">
-            Heritage Sites
-          </a>
+          </Link>
+
+          <Link to="/regions" className="block" onClick={() => setOpen(false)}>
+            Map
+          </Link>
+
+          <Link to="/ai-ranking" className="block" onClick={() => setOpen(false)}>
+            AI Ranking
+          </Link>
+
+          <Link to="#about" className="block" onClick={() => setOpen(false)}>
+            About
+          </Link>
+
           <button className="w-full mt-2 px-4 py-2 rounded-full bg-gray-900 text-white">
             Subscribe
           </button>
